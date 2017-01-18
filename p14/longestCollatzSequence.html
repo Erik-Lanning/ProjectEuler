@@ -1,0 +1,38 @@
+<script>
+/*
+ * Solution to problem 14 from http://ProjectEuler.net by Erik Lanning, 1/2/2017
+ */
+
+maxIndex = 0;
+maxTerms = 0;
+bounds = 1000000;
+
+for (i = 1; i < bounds; ++i)
+{
+	terms = collatzCount(i);
+	if (terms > maxTerms)
+	{
+		maxTerms = terms;
+		maxIndex = i;
+	}
+}
+
+alert(maxIndex);
+
+// Returns the number of terms in the Collatz Sequence.
+// @pre num is an integer greater than zero.
+function collatzCount(num)
+{
+	var terms = 1;
+	while (num != 1)
+	{
+		if (num % 2 == 0)
+			num /= 2;
+		else
+			num = 3 * num + 1
+		++terms;
+	}
+	
+	return terms;
+}
+</script>

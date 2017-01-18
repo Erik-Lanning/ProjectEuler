@@ -1,0 +1,39 @@
+<script>
+/*
+ * Solution to problem 12 from http://ProjectEuler.net by Erik Lanning, 12/28/2016
+ */
+
+term = 1;
+bounds = 500;
+while (numOfDivisors(triangleNumber(term)) <= bounds)
+{
+	++term;
+}
+
+alert(triangleNumber(term));
+
+function triangleNumber(term)
+{
+	// Arithmetic Series.
+	return 0.5*term*(term+1);
+}
+ 
+function numOfDivisors(num)
+{
+	var divisors = 0;
+	var sqrtNum = Math.sqrt(Math.abs(num));
+	
+	var i = 0;
+	for (; i < sqrtNum+1; ++i)
+	{
+		if (num % i == 0)
+			++divisors;
+	}
+	if (i-1 == sqrtNum)
+		divisors = (divisors * 2) - 1;
+	else
+		divisors *= 2;
+	
+	return divisors;
+}
+</script>

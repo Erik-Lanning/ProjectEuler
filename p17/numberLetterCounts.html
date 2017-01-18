@@ -1,0 +1,125 @@
+<script>
+/*
+ * Solution to problem 17 for http://ProjectEuler.net by Erik Lanning, 1/9/2017
+ */
+sum = 0;
+bounds = 1001;
+
+for (var i = 1; i < bounds; ++i)
+{
+	sum += countLetters(numToWord(i));
+}
+
+alert(sum);
+
+// Returns the number of alphabet characters in a string.
+// Is only correct for most strings, because of the use of isLetter().
+function countLetters(str)
+{
+	var sum = 0;
+	var len = str.length;
+	
+	for (var i = 0; i < len; ++i)
+		if (isLetter(str[i]))
+			++sum;
+
+	return sum;
+}
+
+// Returns true if character is a letter, and false otherwise.
+// Only works for most characters, because it works by abusing the fact most non-alphanumeric characters
+// do not have different lower case and upper case versions.
+//@pre character should be a single character.
+function isLetter(character)
+{
+	return character.toLowerCase() != character.toUpperCase();
+}
+
+//@pre num should be a positive integer.
+//@post A string of the English version of num is returned.
+function numToWord(num)
+{
+	var englishStr = "";
+	var numStr = num.toString();
+	var len = numStr.length;
+	
+	for (var i = 0; i < len; ++i)
+	{
+		if (numStr[i] == "0")
+			continue;
+			
+		num = parseInt(numStr.slice(i));
+		
+		if (num >= 1000)
+		{
+			englishStr += digitToWord(parseInt(numStr[i])) + " thousand";
+			if (containsOnlyZeros(numStr.slice(i+1)))
+				return englishStr;
+			englishStr += " ";
+		}
+		else if (num >= 100)
+		{
+			englishStr += digitToWord(parseInt(numStr[i])) + " hundred";
+			if (containsOnlyZeros(numStr.slice(i+1)))
+				return englishStr;
+			englishStr += " and ";
+		}
+		else if (num >= 20)
+		{
+			englishStr += tensToWord(parseInt(numStr[i]) * 10);
+			if (containsOnlyZeros(numStr.slice(i+1)))
+				return englishStr;
+			englishStr += "-";
+		}
+		else if (num >= 10)
+		{
+			englishStr += teensToWord(parseInt(numStr[i]+numStr[++i]));
+		}
+		else
+		{
+			englishStr += digitToWord(parseInt(numStr[i]));
+		}
+	}
+	return englishStr;
+}
+//@pre num should be between 0 to 9.
+//@post Returns the digit to the letter version, 1 => one.
+function digitToWord(num)
+{
+	var words = ["zero", "one", "two", "three", "four", "five", 
+				"six", "seven", "eight", "nine"];
+	return words[num];
+}
+
+//@pre num should be between 10 to 19.
+//@post Returns the num as the letter version, 11 => eleven.
+function teensToWord(num)
+{
+	var newIndex = ((num * 0.1) - Math.floor(num * 0.1)) * 10;
+	var words = ["ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+				"sixteen", "seventeen", "eighteen", "nineteen"];
+	return words[Math.floor(newIndex)];
+}
+
+//@pre num should be between an integer multiple of ten and between [20,90].
+//@post Returns the num as the letter version, 20 => twenty, 50 => fifty.
+function tensToWord(num)
+{
+	var newIndex = Math.floor(num * 0.1) - 2;
+	var words = ["twenty", "thirty", "forty", "fifty", "sixty", "seventy",
+				"eighty", "ninety"];
+	return words[newIndex];
+}
+
+// Checks if a string contains only 0's.
+function containsOnlyZeros(str)
+{
+	var len = str.length;
+	for (var i = 0; i < len; ++i)
+	{
+		if (str[i] != "0")
+			return false;
+	}
+	return true;
+}
+</script>

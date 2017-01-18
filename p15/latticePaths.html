@@ -1,0 +1,28 @@
+<script>
+/*
+ * Solution to problem 15 from http://ProjectEuler.net by Erik Lanning, 1/3/2017
+ */
+// Analysis of the problems pattern-
+// 2, 6, 20, 70, 252... is the Binomial Coefficient 2n choose n.
+number = 20;
+alert (Math.floor(binomial(20 * 2, 20)));
+
+//@pre n ≥ k ≥ 0.
+function binomial(n, k)
+{
+	return factorial(n) / (factorial(k) * factorial(n-k));
+}
+
+//@pre num is a positive integer.
+//@post num! is returned.
+function factorial(num)
+{
+	var result = 1;
+	while (num > 1)
+	{
+		result *= num;
+		--num;
+	}
+	return result;
+}
+</script>
